@@ -97,6 +97,13 @@ export default function LoginForm({ className }: { className?: string }) {
       <p className="text-[11px] text-foreground/60 text-center">
         Al continuar aceptas nuestros Términos y Política de Privacidad.
       </p>
+
+      {/* Powered by Unify */}
+      <div className="text-center pt-4 border-t border-muted/50">
+        <p className="text-xs text-foreground/50">
+          Powered by <span className="font-semibold text-primary">Unify</span>
+        </p>
+      </div>
     </form>
   );
 }

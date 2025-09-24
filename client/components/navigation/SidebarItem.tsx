@@ -18,9 +18,8 @@ export default function SidebarItem({ to, label, icon: Icon, onClick, collapsed 
       onClick={onClick}
       className={({ isActive }) =>
         cn(
-          "group flex items-center gap-3 rounded-lg py-2 text-[13px] text-foreground/80 transition-colors",
-          collapsed ? "justify-center px-2" : "px-3",
-          "hover:bg-secondary/20",
+          "group flex items-center rounded-lg text-[13px] text-foreground/80 transition-colors hover:bg-secondary/20",
+          collapsed ? "justify-center h-12 w-full mx-2" : "gap-3 py-2 px-3",
           isActive && "bg-primary/10 text-primary border border-primary/20"
         )
       }
