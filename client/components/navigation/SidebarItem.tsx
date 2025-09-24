@@ -18,15 +18,15 @@ export default function SidebarItem({ to, label, icon: Icon, onClick, collapsed 
       onClick={onClick}
       className={({ isActive }) =>
         cn(
-          "group flex items-center gap-3 rounded-lg py-2 text-[13px] text-foreground/80 transition-colors",
+          "group flex items-center gap-3 rounded-xl py-2.5 text-[13px] text-white/90 transition-all duration-200",
           collapsed ? "justify-center px-2" : "px-3",
-          "hover:bg-secondary/20",
-          isActive && "bg-primary/10 text-primary border border-primary/20"
+          "hover:bg-white/20 hover:text-white backdrop-blur-sm border border-white/20 hover:border-white/30 drop-shadow-sm",
+          isActive && "bg-white/25 text-white border-white/40 shadow-lg"
         )
       }
     >
-      <Icon className="h-4 w-4 opacity-90 group-hover:opacity-100 group-[.active]:text-primary" />
-      {!collapsed && <span className="truncate">{label}</span>}
+      <Icon className="h-4 w-4 opacity-90 group-hover:opacity-100 drop-shadow-sm" />
+      {!collapsed && <span className="truncate font-medium drop-shadow-sm">{label}</span>}
     </NavLink>
   );
 

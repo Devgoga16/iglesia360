@@ -7,6 +7,34 @@
 
 @layer base {
   /**
+   * Custom animations for enhanced UI
+   */
+  @keyframes swing {
+    15% {
+      transform: translateX(5px) rotate(5deg);
+    }
+    30% {
+      transform: translateX(-5px) rotate(-3deg);
+    }
+    50% {
+      transform: translateX(3px) rotate(2deg);
+    }
+    65% {
+      transform: translateX(-2px) rotate(-1deg);
+    }
+    80% {
+      transform: translateX(1px) rotate(1deg);
+    }
+    100% {
+      transform: translateX(0) rotate(0);
+    }
+  }
+
+  .animate-swing {
+    animation: swing 0.6s ease-in-out;
+  }
+
+  /**
    * Tailwind CSS theme
    * tailwind.config.ts expects the following color variables to be expressed as HSL values.
    * A different format will require also updating the theme in tailwind.config.ts.
