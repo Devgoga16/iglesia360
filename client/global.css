@@ -1,0 +1,108 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Tailwind CSS theme
+   * tailwind.config.ts expects the following color variables to be expressed as HSL values.
+   * A different format will require also updating the theme in tailwind.config.ts.
+  */
+  :root {
+    /* Iglesia 360º brand palette */
+    --background: 0 0% 91.4%; /* #e9e9e9 */
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 214 100% 21%; /* #002e6c */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 199 97% 45%; /* #049ee3 */
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 210 20% 88%;
+    --muted-foreground: 215.4 16.3% 35%;
+
+    --accent: 199 97% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 82%;
+    --input: 0 0% 82%;
+    --ring: 214 100% 21%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar styling */
+    --sidebar-background: 214 100% 21%;
+    --sidebar-foreground: 0 0% 100%;
+
+    --sidebar-primary: 199 97% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+
+    --sidebar-accent: 214 80% 26%;
+    --sidebar-accent-foreground: 0 0% 100%;
+
+    --sidebar-border: 214 40% 30%;
+
+    --sidebar-ring: 199 97% 45%;
+  }
+
+  .dark {
+    --background: 220 20% 10%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 30% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 30% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 214 100% 21%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 199 97% 45%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 20% 16%;
+    --muted-foreground: 210 20% 75%;
+
+    --accent: 214 80% 26%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 20% 16%;
+    --input: 220 20% 16%;
+    --ring: 199 97% 45%;
+    --sidebar-background: 214 100% 21%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 199 97% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 214 80% 26%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 214 40% 30%;
+    --sidebar-ring: 199 97% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
