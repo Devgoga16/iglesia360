@@ -1,10 +1,22 @@
 import LoginForm from "@/components/auth/LoginForm";
-import { CheckCircle2, ShieldCheck, Calendar } from "lucide-react";
+import { CheckCircle2, ShieldCheck, Calendar, Info } from "lucide-react";
 import LoginSlideshow from "@/components/auth/LoginSlideshow";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/context/AuthContext";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Index() {
   const isMobile = useIsMobile();
+  const { isAuthenticated, isLoading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirigir si ya está autenticado
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, isLoading, navigate]);
   
   const slideshowImages = [
     { src: "https://cdn.builder.io/api/v1/image/assets%2F74cba84a45e5447595d8b9727679c450%2Ffa34bf7003bc496c8d5fd4fb831b9330?format=webp&width=1600", alt: "Iglesia 1" },
@@ -45,6 +57,32 @@ export default function Index() {
           </div>
           <div className={`rounded-2xl p-6 shadow-md ${isMobile ? 'bg-white/95 backdrop-blur-sm' : 'bg-card'}`}>
             <LoginForm />
+          </div>
+
+          {/* Demo Users Info */}
+          <div className={`mt-4 rounded-xl p-4 border ${isMobile ? 'bg-white/90 backdrop-blur-sm border-white/20' : 'bg-muted/50 border-muted'}`}>
+            <div className="flex items-start gap-3">
+              <Info className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+              <div className="text-xs space-y-2">
+                <p className={`font-medium ${isMobile ? 'text-gray-800' : 'text-foreground'}`}>
+                  Usuarios de demostración:
+                </p>
+                <div className="space-y-1.5 text-xs">
+                  <div>
+                    <span className={`font-medium ${isMobile ? 'text-gray-700' : 'text-foreground/80'}`}>Admin:</span>
+                    <span className={`ml-2 ${isMobile ? 'text-gray-600' : 'text-foreground/70'}`}>admin@iglesia360.com / admin123</span>
+                  </div>
+                  <div>
+                    <span className={`font-medium ${isMobile ? 'text-gray-700' : 'text-foreground/80'}`}>Pastor:</span>
+                    <span className={`ml-2 ${isMobile ? 'text-gray-600' : 'text-foreground/70'}`}>pastor@iglesia360.com / pastor123</span>
+                  </div>
+                  <div>
+                    <span className={`font-medium ${isMobile ? 'text-gray-700' : 'text-foreground/80'}`}>Demo:</span>
+                    <span className={`ml-2 ${isMobile ? 'text-gray-600' : 'text-foreground/70'}`}>demo@iglesia360.com / demo123</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <p className={`mt-6 text-center text-xs md:text-left ${isMobile ? 'text-white/70' : 'text-foreground/50'}`}>
             © {new Date().getFullYear()} Iglesia 360º

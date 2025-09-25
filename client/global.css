@@ -106,3 +106,31 @@
     @apply bg-background text-foreground font-sans;
   }
 }
+
+/* Mobile optimizations */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Touch-friendly tap targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent zoom on input focus in iOS */
+  @media screen and (max-width: 767px) {
+    input[type="text"],
+    input[type="email"], 
+    input[type="password"],
+    textarea {
+      font-size: 16px;
+    }
+  }
+}

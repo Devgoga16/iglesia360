@@ -5,45 +5,110 @@ export type User = {
   name: string;
   email: string;
   avatar?: string | null;
+  role?: string;
 };
 
 interface AuthContextValue {
   user: User | null;
-  login: (payload: { username: string; email?: string }) => Promise<void>;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  login: (credentials: { email: string; password: string }) => Promise<void>;
   logout: () => void;
+  error: string | null;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "iglesia360.auth.user";
+const TOKEN_KEY = "iglesia360.auth.token";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  // Verificar token al cargar la aplicación
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setUser(JSON.parse(raw));
-    } catch {}
+    const initializeAuth = async () => {
+      try {
+        const token = localStorage.getItem(TOKEN_KEY);
+        if (token) {
+          const response = await fetch('/api/auth/verify', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          });
+
+          if (response.ok) {
+            const userData = await response.json();
+            setUser(userData.user);
+          } else {
+            // Token inválido, limpiar almacenamiento
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(STORAGE_KEY);
+          }
+        }
+      } catch (err) {
+        console.error('Error al verificar autenticación:', err);
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(STORAGE_KEY);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeAuth();
   }, []);
 
-  useEffect(() => {
+  const login = async ({ email, password }: { email: string; password: string }) => {
+    setIsLoading(true);
+    setError(null);
+    
     try {
-      if (user) localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
-      else localStorage.removeItem(STORAGE_KEY);
-    } catch {}
-  }, [user]);
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-  const login = async ({ username, email }: { username: string; email?: string }) => {
-    await new Promise((r) => setTimeout(r, 250));
-    const name = username.trim() || "Usuario";
-    const computedEmail = email || (username.includes("@") ? username : `${username || "user"}@example.com`);
-    setUser({ id: crypto.randomUUID(), name, email: computedEmail, avatar: null });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al iniciar sesión');
+      }
+
+      // Guardar token y usuario
+      localStorage.setItem(TOKEN_KEY, data.token);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data.user));
+      setUser(data.user);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+      setError(errorMessage);
+      throw new Error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(STORAGE_KEY);
+    setUser(null);
+    setError(null);
+  };
 
-  const value = useMemo(() => ({ user, login, logout }), [user]);
+  const isAuthenticated = !!user;
+
+  const value = useMemo(() => ({ 
+    user, 
+    isLoading, 
+    isAuthenticated, 
+    login, 
+    logout, 
+    error 
+  }), [user, isLoading, isAuthenticated, error]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

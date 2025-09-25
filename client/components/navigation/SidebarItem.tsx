@@ -19,12 +19,17 @@ export default function SidebarItem({ to, label, icon: Icon, onClick, collapsed 
       className={({ isActive }) =>
         cn(
           "group flex items-center rounded-lg text-[13px] text-foreground/80 transition-colors hover:bg-secondary/20",
-          collapsed ? "justify-center h-12 w-full mx-2" : "gap-3 py-2 px-3",
+          collapsed 
+            ? "justify-center h-10 w-10 mx-auto" // Dimensiones cuadradas perfectas
+            : "gap-3 py-2 px-3",
           isActive && "bg-primary/10 text-primary border border-primary/20"
         )
       }
     >
-      <Icon className="h-4 w-4 opacity-90 group-hover:opacity-100 group-[.active]:text-primary" />
+      <Icon className={cn(
+        "opacity-90 group-hover:opacity-100 group-[.active]:text-primary",
+        collapsed ? "h-5 w-5" : "h-4 w-4"
+      )} />
       {!collapsed && <span className="truncate">{label}</span>}
     </NavLink>
   );

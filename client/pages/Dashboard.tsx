@@ -1,9 +1,19 @@
 import { useParams } from "react-router-dom";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import Messages from "./Messages";
 import { Calendar, Heart, Users, TrendingUp, Bell, Activity, MessageCircle, DollarSign, Eye, ChevronUp, MoreVertical, Plus } from "lucide-react";
 
 export default function Dashboard() {
   const { moduleId } = useParams();
+
+  // Renderizar módulo específico
+  if (moduleId === 'mensajes') {
+    return (
+      <DashboardLayout>
+        <Messages />
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
